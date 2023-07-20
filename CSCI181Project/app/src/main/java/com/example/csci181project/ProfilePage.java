@@ -16,12 +16,26 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
 
-
+@EActivity
 public class ProfilePage extends AppCompatActivity {
+
+    @ViewById
+    Button backProfilePageButton;
+
+    @ViewById
+    Button followProfilePageButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
     }
+
+
+    @Click
+    public void backProfilePageButton(){
+        
+    }
+
 }
