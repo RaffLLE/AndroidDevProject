@@ -23,7 +23,7 @@ public class Register extends AppCompatActivity {
     EditText passwordRegisterTextField;
 
     @ViewById
-    EditText confirmPasswordRegisterTextField;
+    EditText confirmPasswordTextField;
 
     @ViewById
     Button registerButton;
