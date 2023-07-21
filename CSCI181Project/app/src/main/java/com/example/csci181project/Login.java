@@ -12,6 +12,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Extra;
 
 import io.realm.Realm;
 
@@ -64,9 +65,7 @@ public class Login extends AppCompatActivity {
             if(result.getPassword().equals(passwordLoginTextField.getText().toString()))
             {
 
-                Intent intent = new Intent(this, ProfilePage_.class);
-                startActivity(intent);
-                ProfilePage_.intent(this).uuidString(result.getUuid()).start();
+                HomeScreen_.intent(this).uuidString(result.getUuid()).start();
             }
             else
             {

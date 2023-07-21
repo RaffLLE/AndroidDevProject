@@ -10,9 +10,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
+
+import io.realm.Realm;
+
 
 @EActivity
 public class EditProfile extends AppCompatActivity {
@@ -32,6 +36,15 @@ public class EditProfile extends AppCompatActivity {
     @ViewById
     EditText userBioEditProfileTextField;
 
+    @Extra
+    String uuidString;
+
+    UserObject user;
+
+    Realm realm;
+
+    Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +54,43 @@ public class EditProfile extends AppCompatActivity {
     @AfterViews
     public void init(){
 
+        realm = Realm.getDefaultInstance();
+        user = realm.where(UserObject.class)
+                .equalTo("uuid", uuidString)
+                .findFirst();
+        usernameEditProfileTextField.setText(user.getName());
+        userBioEditProfileTextField.setText(user.getBio());
+
     }
 
     @Click
     public void exitEditProfileButton(){
 
-        Intent intent = new Intent(this, HomeScreen.class);
-        startActivity(intent);
+        finish();
+
+    }
+
+
+    @Click
+    public void saveEditProfileButton(){
+
+        if(String.valueOf(usernameEditProfileTextField.getText()).isEmpty())
+        {
+            toast = Toast.makeText(this, "Username must not be blank", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
+        realm.beginTransaction();
+        user.setName(String.valueOf(usernameEditProfileTextField.getText()));
+        user.setBio(String.valueOf(userBioEditProfileTextField.getText()));
+        realm.copyToRealmOrUpdate(user);
+        realm.commitTransaction();
+
+        toast = Toast.makeText(this, "Profile Saved", Toast.LENGTH_SHORT);
+        toast.show();
+
+        finish();
 
     }
 }

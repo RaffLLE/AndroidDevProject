@@ -15,12 +15,16 @@ import android.widget.Toast;
 
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
 
 import io.realm.Realm;
+<<<<<<< HEAD
 import io.realm.RealmResults;
+=======
+>>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
 
 @EActivity
 public class HomeScreen extends AppCompatActivity {
@@ -47,8 +51,18 @@ public class HomeScreen extends AppCompatActivity {
     @ViewById
     Button followingButton;
 
+<<<<<<< HEAD
     @ViewById
     RecyclerView yourFeedRecycleView;
+=======
+    @Extra
+    String uuidString;
+
+    UserObject user;
+
+    Realm realm;
+
+>>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
 
     Realm realm;
 
@@ -56,6 +70,12 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        refreshData();
     }
 
     @AfterViews
@@ -72,11 +92,17 @@ public class HomeScreen extends AppCompatActivity {
         RealmResults<PostObject> list = realm.where(PostObject.class).findAll();
         PostObjectAdapter post_adapter = new PostObjectAdapter(this, list, true);
 
+<<<<<<< HEAD
         yourFeedRecycleView.setAdapter(post_adapter);
+=======
+        realm = Realm.getDefaultInstance();
+        refreshData();
+>>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
     }
 
     @Click
     public void editProfileButton(){
+<<<<<<< HEAD
         Intent intent = new Intent(this, EditProfile_.class);
         startActivity(intent);
     }
@@ -85,5 +111,19 @@ public class HomeScreen extends AppCompatActivity {
     public void addPostButton() {
         Intent intent = new Intent(this, AddPost_.class);
         startActivity(intent);
+=======
+
+        EditProfile_.intent(this).uuidString(user.getUuid()).start();
+
+    }
+
+    public void refreshData()
+    {
+        user = realm.where(UserObject.class)
+                .equalTo("uuid", uuidString)
+                .findFirst();
+        userNameHomeLabel.setText(user.getName());
+        userBio.setText(user.getBio());
+>>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
     }
 }
