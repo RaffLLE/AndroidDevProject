@@ -70,7 +70,16 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+
+    @Click
     public void saveEditProfileButton(){
+
+        if(String.valueOf(usernameEditProfileTextField.getText()).isEmpty())
+        {
+            toast = Toast.makeText(this, "Username must not be blank", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
 
         realm.beginTransaction();
         user.setName(String.valueOf(usernameEditProfileTextField.getText()));

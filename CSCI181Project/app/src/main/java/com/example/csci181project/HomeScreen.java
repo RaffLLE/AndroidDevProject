@@ -59,15 +59,17 @@ public class HomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        refreshData();
+    }
+
     @AfterViews
     public void init(){
 
         realm = Realm.getDefaultInstance();
-        user = realm.where(UserObject.class)
-                .equalTo("uuid", uuidString)
-                .findFirst();
-        userNameHomeLabel.setText(user.getName());
-        userBio.setText(user.getBio());
+        refreshData();
     }
 
     @Click
@@ -75,5 +77,14 @@ public class HomeScreen extends AppCompatActivity {
 
         EditProfile_.intent(this).uuidString(user.getUuid()).start();
 
+    }
+
+    public void refreshData()
+    {
+        user = realm.where(UserObject.class)
+                .equalTo("uuid", uuidString)
+                .findFirst();
+        userNameHomeLabel.setText(user.getName());
+        userBio.setText(user.getBio());
     }
 }
