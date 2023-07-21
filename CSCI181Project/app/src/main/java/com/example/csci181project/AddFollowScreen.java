@@ -1,6 +1,9 @@
 package com.example.csci181project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,12 +19,20 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 @EActivity
 public class AddFollowScreen extends AppCompatActivity {
 
 
     @ViewById
     Button backAddFollowButton;
+
+    @ViewById
+    RecyclerView recyclerView;
+
+    Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +42,35 @@ public class AddFollowScreen extends AppCompatActivity {
 
     @AfterViews
     public void init(){
+        // initialize realm
+        realm = Realm.getDefaultInstance();
 
+        // initialize RecyclerView
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        // query the things to display
+        RealmResults<UserObject> list = realm.where(UserObject.class).findAll();
+        UserObjectAdapter user_adapter = new UserObjectAdapter(this, list, true);
+
+        recyclerView.setAdapter(user_adapter);
     }
 
 
     @Click
     public void backAddFollowButton(){
-        Intent intent = new Intent(this, HomeScreen.class);
-        startActivity(intent);
+        finish();
+    }
+
+    public void view(UserObject u)
+    {
+        // need to check if previously deleted
+        if (u.isValid())
+        {
+            Intent intent = new Intent(this, ProfilePage_.class);
+            startActivity(intent);
+            ProfilePage_.intent(this).uuidString(u.getUuid()).start();
+        }
     }
 }
