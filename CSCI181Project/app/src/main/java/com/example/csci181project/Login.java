@@ -66,8 +66,6 @@ public class Login extends AppCompatActivity {
             if(result.getPassword().equals(passwordLoginTextField.getText().toString()))
             {
 
-                Intent intent = new Intent(this, ProfilePage_.class);
-                startActivity(intent);
                 ProfilePage_.intent(this).uuidString(result.getUuid()).start();
             }
             else
