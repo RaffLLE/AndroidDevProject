@@ -28,7 +28,7 @@ public class UserObject extends RealmObject {
     public String getPassword() {return password; }
     public void setPassword(String password) {this.password = password; }
 
-    public String getBio() {return password; }
+    public String getBio() {return bio; }
     public void setBio(String bio) {this.bio = bio; }
 
     @Override

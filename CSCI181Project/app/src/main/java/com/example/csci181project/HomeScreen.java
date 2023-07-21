@@ -61,7 +61,7 @@ public class HomeScreen extends AppCompatActivity {
 
     @AfterViews
     public void init(){
-        
+
         realm = Realm.getDefaultInstance();
         user = realm.where(UserObject.class)
                 .equalTo("uuid", uuidString)
@@ -72,7 +72,8 @@ public class HomeScreen extends AppCompatActivity {
 
     @Click
     public void editProfileButton(){
-        Intent intent = new Intent(this, EditProfile.class);
-        startActivity(intent);
+
+        EditProfile_.intent(this).uuidString(user.getUuid()).start();
+
     }
 }
