@@ -65,9 +65,10 @@ public class Login extends AppCompatActivity {
 
             if(result.getPassword().equals(passwordLoginTextField.getText().toString()))
             {
-                
+
                 Intent intent = new Intent(this, ProfilePage_.class);
                 startActivity(intent);
+                ProfilePage_.intent(this).uuidString(result.getUuid()).start();
             }
             else
             {
@@ -80,7 +81,7 @@ public class Login extends AppCompatActivity {
 
     @Click
     public void signupButton(){
-        Intent intent = new Intent(this, Register.class);
+        Intent intent = new Intent(this, Register_.class);
         startActivity(intent);
     }
 
