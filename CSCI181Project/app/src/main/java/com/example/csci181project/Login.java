@@ -13,6 +13,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
 
+import io.realm.Realm;
 
 @EActivity
 public class Login extends AppCompatActivity {
@@ -30,7 +31,8 @@ public class Login extends AppCompatActivity {
     @ViewById
     Button signupButton;
 
-
+    Realm realm;
+    Toast toast;
 
 
     @Override
@@ -44,12 +46,36 @@ public class Login extends AppCompatActivity {
     @AfterViews
     public void init()
     {
-
+        realm = Realm.getDefaultInstance();
     }
 
     @Click
     public void loginButton(){
 
+        UserObject result = realm.where(UserObject.class)
+                .equalTo("name", usernameLoginTextField.getText().toString())
+                .findFirst();
+        if(result==null)
+        {
+            Toast toast = Toast.makeText(this, "No User found", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else
+        {
+
+            if(result.getPassword().equals(passwordLoginTextField.getText().toString()))
+            {
+                
+                Intent intent = new Intent(this, ProfilePage_.class);
+                startActivity(intent);
+            }
+            else
+            {
+                Toast toast = Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+        }
     }
 
     @Click
