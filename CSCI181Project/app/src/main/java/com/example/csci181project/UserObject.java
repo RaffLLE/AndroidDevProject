@@ -17,8 +17,6 @@ public class UserObject extends RealmObject {
 
     private String bio;
 
-    private ArrayList<String> following = new ArrayList<String>();
-
     public String getUuid() {return uuid; }
     public void setUuid(String uuid) {this.uuid = uuid; }
 
@@ -32,23 +30,6 @@ public class UserObject extends RealmObject {
 
     public String getBio() {return password; }
     public void setBio(String bio) {this.bio = bio; }
-
-    public Boolean inList(String followedUser) {
-        return following.contains(followedUser);
-    }
-
-    public void follow(String followedUser) {
-        following.add(followedUser);
-    }
-
-    public void unfollow(String followedUser) {
-        following.remove(followedUser);
-    }
-
-    public ArrayList<String> getList() {
-        return following;
-    }
-
 
     @Override
     public String toString() {
