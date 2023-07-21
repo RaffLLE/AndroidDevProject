@@ -12,9 +12,12 @@ import android.widget.Toast;
 
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
+
+import io.realm.Realm;
 
 @EActivity
 public class HomeScreen extends AppCompatActivity {
@@ -41,6 +44,13 @@ public class HomeScreen extends AppCompatActivity {
     @ViewById
     Button followingButton;
 
+    @Extra
+    String uuidString;
+
+    UserObject user;
+
+    Realm realm;
+
 
 
     @Override
@@ -51,7 +61,13 @@ public class HomeScreen extends AppCompatActivity {
 
     @AfterViews
     public void init(){
-
+        
+        realm = Realm.getDefaultInstance();
+        user = realm.where(UserObject.class)
+                .equalTo("uuid", uuidString)
+                .findFirst();
+        userNameHomeLabel.setText(user.getName());
+        userBio.setText(user.getBio());
     }
 
     @Click
