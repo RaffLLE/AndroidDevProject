@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CSCI181Project</string>
+
+    <!-- THIS MUST MATCH YOUR APP PACKAGE NAME OR ELSE CAMERA WILL-->
+    <!-- INDICATE A CONFLICTING PROVIDER -->
+    <string name="fileAuthority">com.example.csci181project</string>
 </resources>

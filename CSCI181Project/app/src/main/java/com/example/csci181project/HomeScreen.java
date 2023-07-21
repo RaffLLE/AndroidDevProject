@@ -21,10 +21,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
 
 import io.realm.Realm;
-<<<<<<< HEAD
 import io.realm.RealmResults;
-=======
->>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
 
 @EActivity
 public class HomeScreen extends AppCompatActivity {
@@ -51,18 +48,12 @@ public class HomeScreen extends AppCompatActivity {
     @ViewById
     Button followingButton;
 
-<<<<<<< HEAD
     @ViewById
     RecyclerView yourFeedRecycleView;
-=======
     @Extra
     String uuidString;
 
     UserObject user;
-
-    Realm realm;
-
->>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
 
     Realm realm;
 
@@ -92,29 +83,31 @@ public class HomeScreen extends AppCompatActivity {
         RealmResults<PostObject> list = realm.where(PostObject.class).findAll();
         PostObjectAdapter post_adapter = new PostObjectAdapter(this, list, true);
 
-<<<<<<< HEAD
         yourFeedRecycleView.setAdapter(post_adapter);
-=======
-        realm = Realm.getDefaultInstance();
+
         refreshData();
->>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
     }
 
     @Click
     public void editProfileButton(){
-<<<<<<< HEAD
-        Intent intent = new Intent(this, EditProfile_.class);
-        startActivity(intent);
+        EditProfile_.intent(this).uuidString(uuidString).start();
     }
 
     @Click
     public void addPostButton() {
-        Intent intent = new Intent(this, AddPost_.class);
+        AddPost_.intent(this).uuidString(uuidString).start();
+    }
+
+    @Click
+    public void followPeopleButton() {
+        Intent intent = new Intent(this, AddFollowScreen_.class);
         startActivity(intent);
-=======
+    }
 
-        EditProfile_.intent(this).uuidString(user.getUuid()).start();
-
+    @Click
+    public void followingButton() {
+        Intent intent = new Intent(this, CurrentFollowPage_.class);
+        startActivity(intent);
     }
 
     public void refreshData()
@@ -124,6 +117,5 @@ public class HomeScreen extends AppCompatActivity {
                 .findFirst();
         userNameHomeLabel.setText(user.getName());
         userBio.setText(user.getBio());
->>>>>>> 834d19b54338391bf5b74b81cd0a33d1581f75c8
     }
 }

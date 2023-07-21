@@ -17,7 +17,6 @@ import org.androidannotations.annotations.AfterViews;
 
 import io.realm.Realm;
 
-
 @EActivity
 public class EditProfile extends AppCompatActivity {
 
