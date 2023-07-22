@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EActivity;
@@ -13,6 +14,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Extra;
+import org.w3c.dom.Text;
 
 import io.realm.Realm;
 
@@ -32,6 +34,9 @@ public class Login extends AppCompatActivity {
     @ViewById
     Button signupButton;
 
+    @ViewById
+    TextView signupTextClick;
+
     Realm realm;
     Toast toast;
 
@@ -46,10 +51,13 @@ public class Login extends AppCompatActivity {
     public void init()
     {
         realm = Realm.getDefaultInstance();
+
     }
 
     @Click
     public void loginButton(){
+
+        SharedPreferences useruuid = getSharedPreferences("useruuid", MODE_PRIVATE);
 
         UserObject result = realm.where(UserObject.class)
                 .equalTo("name", usernameLoginTextField.getText().toString())
@@ -64,6 +72,9 @@ public class Login extends AppCompatActivity {
 
             if(result.getPassword().equals(passwordLoginTextField.getText().toString()))
             {
+                SharedPreferences.Editor editor = useruuid.edit();
+                editor.putString("useruuid", result.getUuid());
+                editor.apply();
 
                 HomeScreen_.intent(this).uuidString(result.getUuid()).start();
             }
@@ -77,7 +88,7 @@ public class Login extends AppCompatActivity {
     }
 
     @Click
-    public void signupButton(){
+    public void signupTextClick(){
         Intent intent = new Intent(this, Register_.class);
         startActivity(intent);
     }

@@ -57,7 +57,6 @@ public class AddFollowScreen extends AppCompatActivity {
         recyclerView.setAdapter(user_adapter);
     }
 
-
     @Click
     public void backAddFollowButton(){
         finish();

@@ -83,13 +83,15 @@ public class AddPost extends AppCompatActivity {
 
     @Click
     public void postButton(){
+        realm = Realm.getDefaultInstance();
+
         String postString = postCaptionTextField.getText().toString();
         Boolean isPrivate = publicCheckbox.isChecked();
 
         realm.beginTransaction();
 
         PostObject newPost = new PostObject();
-        newPost.setPostUuid(UUID.randomUUID().toString());
+        newPost.setPostUuid(tempID);
         newPost.setUserUuid(uuidString);
         newPost.setText(postString);
         newPost.setDatePosted("IDK");

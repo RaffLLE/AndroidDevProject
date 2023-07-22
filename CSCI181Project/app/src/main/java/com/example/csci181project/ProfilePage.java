@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,7 +44,6 @@ public class ProfilePage extends AppCompatActivity {
 
     Realm realm;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +60,38 @@ public class ProfilePage extends AppCompatActivity {
         profilePageTitle.setText(user.getName() + "'s Page");
         userProfilePageBio.setText(user.getBio());
         userFeedProfilePageLabel.setText(user.getName() + "'s Posts");
+
+        SharedPreferences useruuid = getSharedPreferences("useruuid", MODE_PRIVATE);
+        String userid = useruuid.getString("useruuid",null);
+
+        // if user is viewing own page
+        if (userid.equals(uuidString)) {
+            followProfilePageButton.setVisibility(View.INVISIBLE);
+        }
     }
 
 
     @Click
     public void backProfilePageButton(){
-        
+        finish();
+    }
+
+    @Click
+    public void followProfilePageButton() {
+        SharedPreferences useruuid = getSharedPreferences("useruuid", MODE_PRIVATE);
+        String userid = useruuid.getString("useruuid",null);
+
+        realm.beginTransaction();
+
+        FollowPairObject newPair = new FollowPairObject();
+        newPair.setFollowerUuid(userid);
+        newPair.setFollowedUuid(uuidString);
+
+        realm.copyToRealm((newPair));
+        realm.commitTransaction();
+
+        Toast toast = Toast.makeText(this, "User Followed", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }
