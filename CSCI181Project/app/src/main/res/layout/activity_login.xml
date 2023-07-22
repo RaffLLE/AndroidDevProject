@@ -97,15 +97,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.764" />
 
-    <Button
-        android:id="@+id/signupButton"
+    <TextView
+        android:id="@+id/signupClickHere"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
         android:text="Here"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.913"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.777" />
+        android:textColor="#3F51B5"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/signupLoginText"
+        app:layout_constraintStart_toEndOf="@+id/signupLoginText"
+        app:layout_constraintTop_toTopOf="@+id/signupLoginText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EActivity;
@@ -30,7 +31,7 @@ public class Login extends AppCompatActivity {
     Button loginButton;
 
     @ViewById
-    Button signupButton;
+    TextView signupClickHere;
 
     Realm realm;
     Toast toast;
@@ -75,11 +76,9 @@ public class Login extends AppCompatActivity {
 
         }
     }
-
     @Click
-    public void signupButton(){
-        Intent intent = new Intent(this, Register_.class);
-        startActivity(intent);
+    public void signupClickHere() {
+        Register_.intent(this).start();
     }
 
 }
