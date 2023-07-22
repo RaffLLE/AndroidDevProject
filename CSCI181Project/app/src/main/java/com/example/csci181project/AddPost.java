@@ -24,6 +24,9 @@ import org.androidannotations.annotations.AfterViews;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import io.realm.Realm;
@@ -63,6 +66,14 @@ public class AddPost extends AppCompatActivity {
         setContentView(R.layout.activity_add_post);
     }
 
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!realm.isClosed()) {
+            realm.close();
+        }
+    }
+
     @AfterViews
     public void init(){
         tempID = UUID.randomUUID().toString();
@@ -83,20 +94,30 @@ public class AddPost extends AppCompatActivity {
 
     @Click
     public void postButton(){
-        String postString = postCaptionTextField.getText().toString();
-        Boolean isPrivate = publicCheckbox.isChecked();
+
+        UserObject user = realm.where(UserObject.class)
+                .equalTo("uuid", uuidString)
+                .findFirst();
+
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
+        String currentDateandTime = sdf.format(currentTime);
 
         realm.beginTransaction();
 
         PostObject newPost = new PostObject();
-        newPost.setPostUuid(UUID.randomUUID().toString());
-        newPost.setUserUuid(uuidString);
-        newPost.setText(postString);
-        newPost.setDatePosted("IDK");
-        newPost.setIsPrivate(isPrivate);
+
+        newPost.setPostUuid(tempID);
+        newPost.setUserUuid(user.getName());
+        newPost.setText(postCaptionTextField.getText().toString());
+        newPost.setDatePosted(currentDateandTime);
+        newPost.setIsPrivate(publicCheckbox.isChecked());
 
         realm.copyToRealm((newPost));
         realm.commitTransaction();
+
+        Toast toast = Toast.makeText(this, "Posted!", Toast.LENGTH_SHORT);
+        toast.show();
 
         //Intent intent = new Intent(this, HomeScreen.class);
         //startActivity(intent);

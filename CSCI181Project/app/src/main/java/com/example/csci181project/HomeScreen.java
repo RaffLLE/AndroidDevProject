@@ -14,11 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
+
+import java.io.File;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -71,6 +77,7 @@ public class HomeScreen extends AppCompatActivity {
 
     @AfterViews
     public void init(){
+
         // initialize realm
         realm = Realm.getDefaultInstance();
 
@@ -117,5 +124,22 @@ public class HomeScreen extends AppCompatActivity {
                 .findFirst();
         userNameHomeLabel.setText(user.getName());
         userBio.setText(user.getBio());
+
+        // init photo
+        File imageDir = getExternalCacheDir();
+        File imageFile = new File(imageDir, user.getUuid()+".jpeg");
+
+        if (imageFile.exists()) {
+            refreshImageView(userProfilePic, imageFile);
+        }
+    }
+
+    private void refreshImageView(ImageView imageView, File savedImage) {
+        // this will put the image saved to the file system to the imageview
+        Picasso.get()
+                .load(savedImage)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(imageView);
     }
 }

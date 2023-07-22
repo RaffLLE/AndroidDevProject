@@ -53,7 +53,6 @@ public class Register extends AppCompatActivity {
     @Click
     public void registerButton(){
 
-
         String userNameString = usernameRegisterTextField.getText().toString();
         String passwordString = passwordRegisterTextField.getText().toString();
         String confirmString = confirmPasswordTextField.getText().toString();
@@ -112,5 +111,14 @@ public class Register extends AppCompatActivity {
     @Click
     public void backToLogin() {
         finish();
+    }
+
+    public void onDestroy()
+    {
+        super.onDestroy();
+        if (!realm.isClosed())
+        {
+            realm.close();
+        }
     }
 }

@@ -62,7 +62,7 @@ public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, Post
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         // create the raw view for this ViewHolder
-        View v = activity.getLayoutInflater().inflate(R.layout.user_layout, parent, false);  // VERY IMPORTANT TO USE THIS STYLE
+        View v = activity.getLayoutInflater().inflate(R.layout.post_layout, parent, false);  // VERY IMPORTANT TO USE THIS STYLE
 
         // assign view to the viewholder
         ViewHolder vh = new ViewHolder(v);
@@ -76,7 +76,7 @@ public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, Post
         PostObject p = getItem(position);
 
         // copy all the values needed to the appropriate views
-        holder.username.setText(p.getPostUuid());
+        holder.username.setText(p.getUserUuid());
         holder.date.setText(p.getDatePosted());
         holder.text.setText(p.getText());
 
@@ -85,7 +85,6 @@ public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, Post
         // just a sample, normally you have a diff image name each time
         File file = new File(getImageDir, p.getPostUuid()+".jpeg");
 
-        holder.image.setImageResource(R.mipmap.ic_launcher);
         if (file.exists()) {
             // this will put the image saved to the file system to the imageview
             Picasso.get()
@@ -93,6 +92,9 @@ public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, Post
                     .networkPolicy(NetworkPolicy.NO_CACHE)
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .into(holder.image);
+        }
+        else {
+            holder.image.setVisibility(View.INVISIBLE);
         }
 
     }

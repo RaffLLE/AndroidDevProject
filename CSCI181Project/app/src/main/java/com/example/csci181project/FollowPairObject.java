@@ -12,7 +12,6 @@ public class FollowPairObject extends RealmObject {
 
     private String followedUuid;
 
-
     public String getFollowerUuid() {return followerUuid; }
     public void setFollowerUuid(String uuid) {this.followerUuid = uuid; }
 

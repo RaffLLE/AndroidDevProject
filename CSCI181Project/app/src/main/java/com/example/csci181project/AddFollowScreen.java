@@ -73,4 +73,13 @@ public class AddFollowScreen extends AppCompatActivity {
             ProfilePage_.intent(this).uuidString(u.getUuid()).start();
         }
     }
+
+    public void onDestroy()
+    {
+        super.onDestroy();
+        if (!realm.isClosed())
+        {
+            realm.close();
+        }
+    }
 }
