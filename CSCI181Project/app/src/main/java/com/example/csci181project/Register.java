@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EActivity;
@@ -34,9 +33,6 @@ public class Register extends AppCompatActivity {
 
     @ViewById
     Button goToLoginButton;
-
-    @ViewById
-    TextView gobackClickText;
 
     Realm realm;
     Toast toast;
@@ -113,7 +109,7 @@ public class Register extends AppCompatActivity {
     }
 
     @Click
-    public void gobackClickText(){
+    public void goToLoginButton(){
         finish();
     }
 }

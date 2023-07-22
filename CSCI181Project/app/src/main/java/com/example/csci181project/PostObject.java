@@ -14,6 +14,8 @@ public class PostObject extends RealmObject {
 
     private String text;
 
+    private Boolean hasImage;
+
     private Boolean isPrivate;
 
     public String getPostUuid() {return postUuid; }
@@ -29,6 +31,9 @@ public class PostObject extends RealmObject {
     public void setDatePosted(String name) {
         this.datePosted = name;
     }
+
+    public Boolean getHasImage() {return hasImage; }
+    public void setHasImage(Boolean hasImage) {this.hasImage = hasImage; }
 
     public Boolean getIsPrivate() {return isPrivate; }
     public void setIsPrivate(Boolean isPrivate) {this.isPrivate = isPrivate; }
