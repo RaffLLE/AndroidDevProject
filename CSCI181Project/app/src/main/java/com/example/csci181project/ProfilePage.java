@@ -94,6 +94,7 @@ public class ProfilePage extends AppCompatActivity {
             realm.beginTransaction();
 
             FollowPairObject newPair = new FollowPairObject();
+            newPair.setPairUuid(UUID.randomUUID().toString());
             newPair.setFollowedUuid(uuidString);
             newPair.setFollowerUuid(uuid);
 

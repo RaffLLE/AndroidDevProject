@@ -8,9 +8,14 @@ import io.realm.annotations.PrimaryKey;
 public class FollowPairObject extends RealmObject {
 
     @PrimaryKey
-    private String followerUuid;
+    private String pairUuid;
 
     private String followedUuid;
+
+    private String followerUuid;
+
+    public String getPairUuid() {return pairUuid; }
+    public void setPairUuid(String uuid) {this.pairUuid = uuid; }
 
     public String getFollowerUuid() {return followerUuid; }
     public void setFollowerUuid(String uuid) {this.followerUuid = uuid; }
