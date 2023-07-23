@@ -49,7 +49,8 @@ this MUST match your package name in the <manifest> tag
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_path" />
         </provider>
-        <activity android:name=".ImageActivity_" />
+        <activity android:name=".ImageActivity_"
+            android:exported="true"/>
 
         <activity
             android:name=".ProfilePage_"

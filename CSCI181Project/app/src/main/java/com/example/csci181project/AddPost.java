@@ -108,7 +108,7 @@ public class AddPost extends AppCompatActivity {
         PostObject newPost = new PostObject();
 
         newPost.setPostUuid(tempID);
-        newPost.setUserUuid(user.getName());
+        newPost.setUserUuid(user.getUuid());
         newPost.setText(postCaptionTextField.getText().toString());
         newPost.setDatePosted(currentDateandTime);
         newPost.setIsPrivate(publicCheckbox.isChecked());
@@ -119,8 +119,6 @@ public class AddPost extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Posted!", Toast.LENGTH_SHORT);
         toast.show();
 
-        //Intent intent = new Intent(this, HomeScreen.class);
-        //startActivity(intent);
         finish();
     }
 

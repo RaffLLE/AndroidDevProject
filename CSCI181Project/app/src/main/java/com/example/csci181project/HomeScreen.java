@@ -86,11 +86,7 @@ public class HomeScreen extends AppCompatActivity implements PostObjectActivity{
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         yourFeedRecycleView.setLayoutManager(mLayoutManager);
 
-        // query the things to display
-        RealmResults<PostObject> list = realm.where(PostObject.class).findAll();
-        PostObjectAdapter post_adapter = new PostObjectAdapter(this, list, true);
 
-        yourFeedRecycleView.setAdapter(post_adapter);
 
         refreshData();
     }
@@ -133,6 +129,31 @@ public class HomeScreen extends AppCompatActivity implements PostObjectActivity{
         if (imageFile.exists()) {
             refreshImageView(userProfilePic, imageFile);
         }
+
+        RealmResults<FollowPairObject> list = realm.where(FollowPairObject.class)
+                .equalTo("followerUuid", uuidString)
+                .findAll();
+
+        String[] followedUuid = new String[list.size()];
+        for(int i = 0; i<list.size(); i++)
+        {
+            followedUuid[i] = list.get(i).getFollowedUuid();
+        }
+
+
+
+        // query the things to display
+        RealmResults<PostObject> posts = realm.where(PostObject.class)
+                .in("userUuid", followedUuid)
+                .and()
+                .equalTo("isPrivate", Boolean.FALSE)
+                .or()
+                .equalTo("userUuid", uuidString)
+                .findAll();
+
+        PostObjectAdapter post_adapter = new PostObjectAdapter(this, posts, true);
+
+        yourFeedRecycleView.setAdapter(post_adapter);
     }
 
     private void refreshImageView(ImageView imageView, File savedImage) {

@@ -10,10 +10,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -229,5 +233,40 @@ public class ImageActivity extends AppCompatActivity
         return isCamera ?  getCaptureImageOutputUri() : data.getData();
     }
 
+    @AfterViews
+    public void checkPermissions()
+    {
+        // REQUEST PERMISSIONS for Android 6+
+        // THESE PERMISSIONS SHOULD MATCH THE ONES IN THE MANIFEST
+        Dexter.withContext(this)
+                .withPermissions(
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.CAMERA
 
+                )
+
+                .withListener(new BaseMultiplePermissionsListener()
+                {
+                    public void onPermissionsChecked(MultiplePermissionsReport report)
+                    {
+                        if (report.areAllPermissionsGranted())
+                        {
+                            // all permissions accepted proceed
+                            init();
+                        }
+                        else
+                        {
+                            // notify about permissions
+                            toastRequirePermissions();
+                        }
+                    }
+                })
+                .check();
+    }
+    public void toastRequirePermissions()
+    {
+        Toast.makeText(this, "You must provide permissions for app to run", Toast.LENGTH_LONG).show();
+        finish();
+    }
 }

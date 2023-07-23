@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.MemoryPolicy;
@@ -18,10 +19,12 @@ import java.io.File;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
+import io.realm.Realm;
 
 // the parameterization <type of the RealmObject, ViewHolder type)
 public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, PostObjectAdapter.ViewHolder> {
 
+    Realm realm;
     // THIS DEFINES WHAT VIEWS YOU ARE FILLING IN
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -31,6 +34,8 @@ public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, Post
         TextView text;
 
         ImageView image;
+
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,13 +53,14 @@ public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, Post
 
     // IMPORTANT
     // THE CONTAINING ACTIVITY NEEDS TO BE PASSED SO YOU CAN GET THE LayoutInflator(see below)
-    HomeScreen activity;
+    AppCompatActivity activity;
 
-    public PostObjectAdapter(HomeScreen activity, @Nullable OrderedRealmCollection<PostObject> data, boolean autoUpdate) {
+    public PostObjectAdapter(AppCompatActivity activity, @Nullable OrderedRealmCollection<PostObject> data, boolean autoUpdate) {
         super(data, autoUpdate);
 
         // THIS IS TYPICALLY THE ACTIVITY YOUR RECYCLERVIEW IS IN
         this.activity = activity;
+        realm = Realm.getDefaultInstance();
     }
 
     @NonNull
@@ -74,9 +80,12 @@ public class PostObjectAdapter extends RealmRecyclerViewAdapter<PostObject, Post
 
         // gives you the data object at the given position
         PostObject p = getItem(position);
+        UserObject result = realm.where(UserObject.class)
+                .equalTo("uuid", p.getUserUuid())
+                .findFirst();
 
         // copy all the values needed to the appropriate views
-        holder.username.setText(p.getUserUuid());
+        holder.username.setText(result.getName());
         holder.date.setText(p.getDatePosted());
         holder.text.setText(p.getText());
 
