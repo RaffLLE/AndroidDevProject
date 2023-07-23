@@ -54,24 +54,14 @@ public class AddFollowScreen extends AppCompatActivity implements UserObjectActi
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        RealmResults<FollowPairObject> list = realm.where(FollowPairObject.class)
-                .equalTo("followerUuid", uuidString)
-                .findAll();
+        refreshData();
+    }
 
-        String[] followedUuid = new String[list.size()];
-        for(int i = 0; i<list.size(); i++)
-        {
-            followedUuid[i] = list.get(i).getFollowedUuid();
-        }
-
-        RealmResults<UserObject> finalList = realm.where(UserObject.class)
-                .not()
-                .in("uuid", followedUuid)
-                .findAll();
-
-        UserObjectAdapter user_adapter = new UserObjectAdapter(this, finalList, true);
-
-        recyclerView.setAdapter(user_adapter);
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        refreshData();
     }
 
 
@@ -101,5 +91,27 @@ public class AddFollowScreen extends AppCompatActivity implements UserObjectActi
 
 
         }
+    }
+
+    public void refreshData()
+    {
+        RealmResults<FollowPairObject> list = realm.where(FollowPairObject.class)
+                .equalTo("followerUuid", uuidString)
+                .findAll();
+
+        String[] followedUuid = new String[list.size()];
+        for(int i = 0; i<list.size(); i++)
+        {
+            followedUuid[i] = list.get(i).getFollowedUuid();
+        }
+
+        RealmResults<UserObject> finalList = realm.where(UserObject.class)
+                .not()
+                .in("uuid", followedUuid)
+                .findAll();
+
+        UserObjectAdapter user_adapter = new UserObjectAdapter(this, finalList, true);
+
+        recyclerView.setAdapter(user_adapter);
     }
 }

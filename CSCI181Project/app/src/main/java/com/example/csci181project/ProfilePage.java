@@ -69,7 +69,12 @@ public class ProfilePage extends AppCompatActivity implements PostObjectActivity
         SharedPreferences userid = getSharedPreferences("userid", MODE_PRIVATE);
         String uuid = userid.getString("userid",null);
 
-        if (uuid.equals(uuidString)) {
+        FollowPairObject pair = realm.where(FollowPairObject.class)
+                .equalTo("followerUuid", uuid)
+                .equalTo("followedUuid", uuidString)
+                .findFirst();
+
+        if (uuid.equals(uuidString) || pair!=null) {
             followProfilePageButton.setVisibility(View.INVISIBLE);
         }
     }
