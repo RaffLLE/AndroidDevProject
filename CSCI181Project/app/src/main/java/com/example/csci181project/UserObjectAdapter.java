@@ -9,11 +9,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import org.androidannotations.annotations.App;
 
 import java.io.File;
 
@@ -52,9 +55,9 @@ public class UserObjectAdapter extends RealmRecyclerViewAdapter<UserObject, User
 
     // IMPORTANT
     // THE CONTAINING ACTIVITY NEEDS TO BE PASSED SO YOU CAN GET THE LayoutInflator(see below)
-    AddFollowScreen activity;
+    AppCompatActivity activity;
 
-    public UserObjectAdapter(AddFollowScreen activity, @Nullable OrderedRealmCollection<UserObject> data, boolean autoUpdate) {
+    public UserObjectAdapter(AppCompatActivity activity, @Nullable OrderedRealmCollection<UserObject> data, boolean autoUpdate) {
         super(data, autoUpdate);
 
         // THIS IS TYPICALLY THE ACTIVITY YOUR RECYCLERVIEW IS IN
@@ -101,7 +104,9 @@ public class UserObjectAdapter extends RealmRecyclerViewAdapter<UserObject, User
         holder.viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.view(u);
+
+                UserObjectActivity activity1 = (UserObjectActivity) activity;
+                activity1.view(u);
             }
         });
 

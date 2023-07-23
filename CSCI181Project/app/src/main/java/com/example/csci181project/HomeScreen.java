@@ -109,12 +109,13 @@ public class HomeScreen extends AppCompatActivity {
     public void followPeopleButton() {
         Intent intent = new Intent(this, AddFollowScreen_.class);
         startActivity(intent);
+
     }
 
     @Click
     public void followingButton() {
-        Intent intent = new Intent(this, CurrentFollowPage_.class);
-        startActivity(intent);
+        CurrentFollowPage_.intent(this).uuidString(uuidString).start();
+
     }
 
     public void refreshData()

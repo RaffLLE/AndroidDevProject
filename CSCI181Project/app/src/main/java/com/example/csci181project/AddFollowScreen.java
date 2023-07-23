@@ -23,7 +23,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 @EActivity
-public class AddFollowScreen extends AppCompatActivity {
+public class AddFollowScreen extends AppCompatActivity implements UserObjectActivity{
 
 
     @ViewById
@@ -63,16 +63,6 @@ public class AddFollowScreen extends AppCompatActivity {
         finish();
     }
 
-    public void view(UserObject u)
-    {
-        // need to check if previously deleted
-        if (u.isValid())
-        {
-            Intent intent = new Intent(this, ProfilePage_.class);
-            startActivity(intent);
-            ProfilePage_.intent(this).uuidString(u.getUuid()).start();
-        }
-    }
 
     public void onDestroy()
     {
@@ -80,6 +70,19 @@ public class AddFollowScreen extends AppCompatActivity {
         if (!realm.isClosed())
         {
             realm.close();
+        }
+    }
+
+
+    @Override
+    public void view(UserObject u)
+    {
+        // need to check if previously deleted
+        if (u.isValid())
+        {
+            ProfilePage_.intent(this).uuidString(u.getUuid()).start();
+
+
         }
     }
 }
