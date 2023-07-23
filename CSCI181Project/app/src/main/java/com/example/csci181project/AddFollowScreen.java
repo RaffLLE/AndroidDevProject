@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.AfterViews;
@@ -34,6 +35,9 @@ public class AddFollowScreen extends AppCompatActivity implements UserObjectActi
 
     Realm realm;
 
+    @Extra
+    String uuidString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +53,23 @@ public class AddFollowScreen extends AppCompatActivity implements UserObjectActi
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
-        RealmResults<UserObject> list = realm.where(UserObject.class).findAll();
 
-        UserObjectAdapter user_adapter = new UserObjectAdapter(this, list, true);
+        RealmResults<FollowPairObject> list = realm.where(FollowPairObject.class)
+                .equalTo("followerUuid", uuidString)
+                .findAll();
+
+        String[] followedUuid = new String[list.size()];
+        for(int i = 0; i<list.size(); i++)
+        {
+            followedUuid[i] = list.get(i).getFollowedUuid();
+        }
+
+        RealmResults<UserObject> finalList = realm.where(UserObject.class)
+                .not()
+                .in("uuid", followedUuid)
+                .findAll();
+
+        UserObjectAdapter user_adapter = new UserObjectAdapter(this, finalList, true);
 
         recyclerView.setAdapter(user_adapter);
     }

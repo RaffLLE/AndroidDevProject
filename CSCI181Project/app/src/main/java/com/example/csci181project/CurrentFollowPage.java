@@ -62,6 +62,7 @@ public class CurrentFollowPage extends AppCompatActivity implements UserObjectAc
         for(int i = 0; i<list.size(); i++)
         {
             followedUuid[i] = list.get(i).getFollowedUuid();
+
         }
 
         RealmResults<UserObject> finalList = realm.where(UserObject.class)

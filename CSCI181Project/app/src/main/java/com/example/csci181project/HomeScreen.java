@@ -107,8 +107,8 @@ public class HomeScreen extends AppCompatActivity implements PostObjectActivity{
 
     @Click
     public void followPeopleButton() {
-        Intent intent = new Intent(this, AddFollowScreen_.class);
-        startActivity(intent);
+        AddFollowScreen_.intent(this).uuidString(uuidString).start();
+
 
     }
 
