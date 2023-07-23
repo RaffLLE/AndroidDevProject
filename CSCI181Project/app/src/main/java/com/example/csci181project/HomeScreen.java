@@ -30,7 +30,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 @EActivity
-public class HomeScreen extends AppCompatActivity {
+public class HomeScreen extends AppCompatActivity implements PostObjectActivity{
 
 
     @ViewById

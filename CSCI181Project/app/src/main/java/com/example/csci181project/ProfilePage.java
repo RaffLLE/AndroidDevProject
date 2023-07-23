@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import io.realm.Realm;
 @EActivity
-public class ProfilePage extends AppCompatActivity {
+public class ProfilePage extends AppCompatActivity implements PostObjectActivity{
 
     @ViewById
     Button backProfilePageButton;

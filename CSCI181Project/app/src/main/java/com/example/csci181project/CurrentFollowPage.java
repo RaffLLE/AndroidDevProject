@@ -54,9 +54,23 @@ public class CurrentFollowPage extends AppCompatActivity implements UserObjectAc
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView3.setLayoutManager(mLayoutManager);
 
-        // query the things to display
-        RealmResults<UserObject> list = realm.where(UserObject.class).findAll();
-        UserObjectAdapter user_adapter = new UserObjectAdapter(this, list, true);
+        RealmResults<FollowPairObject> list = realm.where(FollowPairObject.class)
+                .equalTo("followerUuid", uuidString)
+                .findAll();
+
+        String[] followedUuid = new String[list.size()];
+        for(int i = 0; i<list.size(); i++)
+        {
+            followedUuid[i] = list.get(i).getFollowedUuid();
+        }
+
+        RealmResults<UserObject> finalList = realm.where(UserObject.class)
+                .in("uuid", followedUuid)
+                .findAll();
+
+         // query the things to display
+
+        UserObjectAdapter user_adapter = new UserObjectAdapter(this, finalList, true);
 
         recyclerView3.setAdapter(user_adapter);
     }

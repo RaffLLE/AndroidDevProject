@@ -49,9 +49,8 @@ public class AddFollowScreen extends AppCompatActivity implements UserObjectActi
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
-
-        // query the things to display
         RealmResults<UserObject> list = realm.where(UserObject.class).findAll();
+
         UserObjectAdapter user_adapter = new UserObjectAdapter(this, list, true);
 
         recyclerView.setAdapter(user_adapter);
